@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Post</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="container py-4">
+    <h1 class="mb-4 text-center fw-bold">Edit Post</h1>
+
+    <form action="/posts/<%= post._id %>?_method=PUT" method="POST" class="mx-auto" style="max-width: 700px;">
+
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select class="form-select" id="category" name="category" required>
+          <option value="">-- Select Category --</option>
+          <option value="Technology" <%= post.category === "Technology" ? "selected" : "" %>>Technology</option>
+          <option value="Education & Career" <%= post.category === "Education & Career" ? "selected" : "" %>>Education & Career</option>
+          <option value="Health & Fitness" <%= post.category === "Health & Fitness" ? "selected" : "" %>>Health & Fitness</option>
+          <option value="Lifestyle" <%= post.category === "Lifestyle" ? "selected" : "" %>>Lifestyle</option>
+          <option value="Relationships" <%= post.category === "Relationships" ? "selected" : "" %>>Relationships</option>
+          <option value="Science" <%= post.category === "Science" ? "selected" : "" %>>Science</option>
+          <option value="Finance" <%= post.category === "Finance" ? "selected" : "" %>>Finance</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="<%= post.title %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="body" class="form-label">Body</label>
+        <textarea class="form-control" id="body" name="body" rows="6" required><%= post.body %></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="author" class="form-label">Author</label>
+        <input type="text" class="form-control" id="author" name="author" value="<%= post.author %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Image URL</label>
+        <input type="url" class="form-control" id="image" name="image" value="<%= post.image %>">
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Update Post</button>
+    </form>
+
+    <form action="/posts/<%= post._id %>?_method=DELETE" method="POST" class="mx-auto mt-3" style="max-width: 700px;">
+      <button
+        type="submit"
+        class="btn btn-danger w-100"
+        onclick="return confirm('Are you sure you want to delete this post? This action cannot be undone.');"
+      >
+        Delete Post
+      </button>
+    </form>
+
+    <div class="d-flex justify-content-center mt-3 mx-auto" style="max-width: 700px;">
+      <a href="/posts/<%= post._id %>" class="btn btn-outline-secondary">Cancel and View Post</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
