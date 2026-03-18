@@ -11,7 +11,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/auth/signin", {
+      const res = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -19,9 +19,11 @@ export default function SignIn() {
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem("token", data.token); // store JWT
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("username", data.user.fullName);
+        localStorage.setItem("userId", data.user.id);
         alert("Signed in successfully!");
-        navigate("/posts"); // redirect
+        navigate("/posts");
       } else {
         alert(data.message || "Sign in failed");
       }

@@ -11,6 +11,9 @@ import RegisterPage from "../pages/RegisterPage";
 import CreatePost from "../pages/CreatePost";
 import UserPosts from "../components/UserPosts";
 import EditPost from "../pages/EditPost";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
+import SavedPosts from "../pages/SavedPosts";
 
 const AppRoutes = () => {
   return (
@@ -22,11 +25,15 @@ const AppRoutes = () => {
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/logout" element={<LogoutPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
       <Route path="/create" element={<CreatePost />} />
       <Route path="/my-posts/:author" element={<UserPosts />} />
       <Route path="/posts/:id/edit" element={<EditPost />} />
+      <Route path="/saved-posts" element={<SavedPosts />} />
     </Routes>
   );
 };
 
 export default AppRoutes;
+

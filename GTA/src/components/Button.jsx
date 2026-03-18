@@ -1,11 +1,12 @@
 import React from 'react';
 
-const Button = ({ children, onClick, className = "", style = {} }) => {
+const Button = ({ children, onClick, className = "", style = {}, ...props }) => {
   return (
     <button
       onClick={onClick}
-      className={`px-5 py-2.5 text-base font-bold text-black bg-yellow-400 rounded-md hover:bg-yellow-500 transition-colors border-none cursor-pointer ${className}`}
+      className={`px-5 py-2.5 text-base font-bold text-black bg-yellow-400 rounded-md hover:bg-yellow-500 transition-colors border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       style={style}
+      {...props}
     >
       {children}
     </button>

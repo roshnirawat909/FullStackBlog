@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Navbar from '../components/Navbar';
+import AIAssistant from '../components/AIAssistant';
 
 const EditPost = () => {
     const { id } = useParams();
@@ -12,6 +13,7 @@ const EditPost = () => {
         image: '',
         category: '',
     });
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -39,8 +41,28 @@ const EditPost = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleAIContent = (text, type) => {
+        setFormData((prev) => {
+          if (type === 'title') {
+            return { ...prev, title: text };
+          }
+          return { ...prev, body: prev.body ? prev.body + "\n\n" + text : text };
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (formData.image) {
+            try {
+                new URL(formData.image);
+            } catch (error) {
+                console.error("Invalid image URL:", error);
+
+                alert("Please enter a valid Image URL (must start with http:// or https://)");
+                return;
+            }
+        }
+        setLoading(true);
         try {
             const response = await fetch(`http://localhost:8080/posts/${id}`, {
                 method: "PUT",
@@ -55,9 +77,11 @@ const EditPost = () => {
                 navigate(`/my-posts/${author}`);
             } else {
                 console.error("Failed to update post");
+                setLoading(false);
             }
         } catch (error) {
             console.error("Error updating post:", error);
+            setLoading(false);
         }
     };
 
@@ -66,7 +90,8 @@ const EditPost = () => {
         <Navbar />
         <div className="max-w-2xl mx-auto pt-24 px-4">
             <h1 className="text-3xl font-bold mb-6 text-white">Edit Post</h1>
-            <form onSubmit={handleSubmit} className="space-y-4 text-black">
+            <AIAssistant onContentGenerated={handleAIContent} />
+            <form onSubmit={handleSubmit} className="space-y-4 text-black mt-6">
                 <div>
                     <input
                         type="text"
@@ -80,7 +105,7 @@ const EditPost = () => {
                 </div>
                 <div>
                     <input
-                        type="text"
+                        type="url"
                         name="image"
                         placeholder="Image URL"
                         value={formData.image}
@@ -99,7 +124,16 @@ const EditPost = () => {
                         className="w-full p-3 rounded-md border border-gray-300"
                     ></textarea>
                 </div>
-                <Button type="submit">Update Post</Button>
+                <Button type="submit" disabled={loading} className={loading ? "opacity-70 cursor-not-allowed" : ""}>
+                    {loading ? (
+                        <div className="flex items-center justify-center gap-2">
+                            <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                            <span>Updating...</span>
+                        </div>
+                    ) : (
+                        "Update Post"
+                    )}
+                </Button>
             </form>
         </div>
         </>

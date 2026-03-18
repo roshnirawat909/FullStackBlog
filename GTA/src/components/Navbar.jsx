@@ -81,6 +81,16 @@ const Navbar = () => {
             >
               My Posts
             </button>
+            {isLoggedIn && (
+              <button
+                onClick={() => navigate("/saved-posts")}
+                className={`px-3 py-2 text-3xl font-medium ${isActive(
+                  "/saved-posts"
+                )} hover:text-yellow-400 transition`}
+              >
+                Saved
+              </button>
+            )}
             <button
               onClick={() => navigate("/register")}
               className={`px-3 py-2 text-3xl font-medium ${isActive(
@@ -135,6 +145,14 @@ const Navbar = () => {
             >
               My Posts
             </button>
+            {isLoggedIn && (
+              <button
+                onClick={() => { navigate("/saved-posts"); setIsMenuOpen(false); }}
+                className={`px-3 py-2 text-xl font-medium text-left ${isActive("/saved-posts")} hover:text-yellow-400 transition`}
+              >
+                Saved
+              </button>
+            )}
             <button
               onClick={() => { navigate("/register"); setIsMenuOpen(false); }}
               className={`px-3 py-2 text-xl font-medium text-left ${isActive("/register")} hover:text-yellow-400 transition`}

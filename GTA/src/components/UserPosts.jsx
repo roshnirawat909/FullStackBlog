@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from './Button';
 import Navbar from './Navbar';
+import PostCard from './PostCard';
 
 const UserPosts = () => {
   const { author } = useParams();
@@ -11,8 +12,6 @@ const UserPosts = () => {
     const [postToDelete, setPostToDelete] = useState(null);
     const isLoggedIn = !!localStorage.getItem("token");
     const loggedInUser = isLoggedIn ? (localStorage.getItem("username") ) : null;
-
-    console.log("UserPosts component mounted. Author param:", author);
 
     const handleDeleteClick = (postId) => {
         setPostToDelete(postId);
@@ -44,13 +43,11 @@ const UserPosts = () => {
             try {
                 // Adjust the URL to match your backend API endpoint
                 const url = `http://localhost:8080/posts?author=${encodeURIComponent(author)}`;
-                console.log("Fetching URL:", url);
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log("Fetched data:", data);
                 if (Array.isArray(data)) {
                     setPosts(data);
                 } else {
@@ -67,6 +64,10 @@ const UserPosts = () => {
         }
     }, [author]);
 
+    const handlePostUpdate = (updatedPost) => {
+        setPosts((prevPosts) => prevPosts.map((post) => post._id === updatedPost._id ? updatedPost : post));
+    };
+
     return (
         <>
         <Navbar />
@@ -75,41 +76,20 @@ const UserPosts = () => {
             {posts.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {posts.map((post) => (
-                        <div key={post._id || post.title} className="post-card flex flex-col bg-white p-4 rounded-lg shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                            {post.image && <img src={post.image} alt={post.title} className="w-full h-48 sm:h-64 object-cover rounded-lg bg-gray-100 mb-4" />}
-                            <h3 className="text-xl font-bold mb-2">{post.title}</h3>
-                            <p className="text-gray-700 mb-4 grow">{post.body}</p>
-                            <small className="block text-gray-500 mb-4">Category: {post.category} {post.author !== "Guest" && `| By: ${post.author}`}</small>
-                            <div className="flex gap-2 mt-auto">
-                                <Button
-                                    onClick={() => navigate(`/posts/${post._id}/edit`)}
-                                    style={{ backgroundColor: "#3b82f6", color: "white" }}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    onClick={() => handleDeleteClick(post._id)}
-                                    style={{ backgroundColor: "#ef4444", color: "white" }}
-                                >
-                                    Delete
-                                </Button>
-                            </div>
-                        </div>
+                        <PostCard 
+                            key={post._id || post.title}
+                            post={post}
+                            loggedInUser={loggedInUser}
+                            navigate={navigate}
+                            onDeleteClick={() => handleDeleteClick(post._id)}
+                            onUpdate={handlePostUpdate}
+                        />
                     ))}
                 </div>
             ) : (
-                <div style={{ textAlign: "center", marginTop: "50px", color: "#555" }}>
-                    <h2 style={{ fontSize: "2rem", marginBottom: "10px" }}>No Posts Found</h2>
-                    <p style={{ fontSize: "1.2rem" }}>{loggedInUser === author ? "You haven't posted anything yet." : `It looks like ${author} hasn't posted anything yet.`}</p>
-                    <Button
-                        onClick={() => navigate(-1)}
-                        style={{ marginTop: "20px" }}
-                    >
-                        Go Back
-                    </Button>
-                </div>
+                <div className="text-center text-gray-500 py-10">No posts found.</div>
             )}
-
+            
             {/* Confirmation Modal */}
             {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

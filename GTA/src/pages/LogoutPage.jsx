@@ -11,6 +11,7 @@ export default function Logout() {
 
     // Optionally clear other user data
     localStorage.removeItem("username");
+    localStorage.removeItem("userId");
 
     // Redirect to home or login
     navigate("/login");

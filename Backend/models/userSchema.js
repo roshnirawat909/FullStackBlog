@@ -37,7 +37,12 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  password: { type: String },
+  googleId: { type: String },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
+  likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+  savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }]
 });
 
 const User = mongoose.model("User", userSchema);

@@ -1,131 +1,31 @@
-
-/*import mongoose from 'mongoose';
-
-const commentSchema = new mongoose.Schema({
-  author: {
-    type: String,
-    required: true
-  },
-  text: {
-    type: String,
-    required: true
-  }
-});
-
-const postSchema = new mongoose.Schema({
-  category: {
-    type: String,
-    required: true,
-    enum: [
-      "Technology",
-      "Education & Career",
-      "Health & Fitness",
-      "Lifestyle",
-      "Relationships",
-      "Science",
-      "Finance"
-    ]
-  },
-  title: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  body: {
-    type: String,
-    required: true
-  },
-  author: {
-    type: String,
-    required: true
-  },
-  image: {
-    type: String,
-    default: ""
-  },
-  likes: {
-    type: Number,
-    default: 0
-  },
-  comments: [commentSchema]
-}, { timestamps: true });
-
-const Post = mongoose.model("Post", postSchema);
-export default Post;*/
-
-/*
-// models/postSchema.js
-//const mongoose = require("mongoose");
-
-import mongoose from "mongoose";
-
-const commentSchema = new mongoose.Schema({
-    author: {
-        type: String,
-        required: true
-    },
-    text: {
-        type: String,
-        required: true
-    }
-});
-
-const postSchema = new mongoose.Schema({
-    category: {
-        type: String,
-        required: true,
-        enum: [
-            "Technology",
-            "Education & Career",
-            "Health & Fitness",
-            "Lifestyle",
-            "Relationships",
-            "Science",
-            "Finance"
-        ]
-    },
-    title: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    body: {
-        type: String,
-        required: true
-    },
-    author: {
-        type: String,
-        required: true
-    },
-    image: {
-        type: String,
-        default: ""
-    },
-    likes: {
-        type: Number,
-        default: 0
-    },
-    comments: [commentSchema] // Embedded documents
-}, { timestamps: true });
-
-const Post = mongoose.model("Post", postSchema);
-
-
-
- export default Post;
-
- */
-
  import mongoose from "mongoose";
+
+const replySchema = new mongoose.Schema({
+  text: String,
+  author: String,
+  likes: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const commentSchema = new mongoose.Schema({
+  text: String,
+  author: String,
+  likes: { type: Number, default: 0 },
+  replies: [replySchema],
+  createdAt: { type: Date, default: Date.now }
+});
 
 const postSchema = new mongoose.Schema({
   title: String,
   body: String,
   category: String,
+  tags: [String],
   author: String,
   image: String,
-  likes: Number,
-  comments: Array
+  likes: { type: Number, default: 0 },
+  likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  savedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  comments: [commentSchema]
 }, { timestamps: true });
 
 const Post = mongoose.model("Post", postSchema);
