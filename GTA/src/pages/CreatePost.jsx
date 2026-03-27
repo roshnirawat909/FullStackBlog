@@ -102,6 +102,17 @@ const CreatePost = () => {
           />
         </div>
         <div>
+          <input
+            type="text"
+            name="category"
+            placeholder="Post Category (e.g. Technology, Poetry)"
+            value={formData.category}
+            onChange={handleChange}
+            className="w-full p-3 rounded-md border border-gray-300 mb-4"
+            required
+          />
+        </div>
+        <div>
           <textarea
             name="body"
             placeholder="Write your post content here..."

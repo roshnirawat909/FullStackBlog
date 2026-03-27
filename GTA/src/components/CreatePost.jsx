@@ -24,7 +24,8 @@ const CreatePost = () => {
         "Web Development",
         "AI",
         "Programming",
-        "Career Tips"
+        "Career Tips",
+        "Poetry"
     ];
 
     const suggestedTags = [
