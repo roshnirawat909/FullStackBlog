@@ -2,6 +2,10 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+
+import { CATEGORIES } from '../constants/categories';
+
+
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -10,7 +14,8 @@ const Navbar = () => {
    const isLoggedIn = localStorage.getItem("token") ? true : false;
    // Only use the stored username if the user is actually logged in
    const username = isLoggedIn ? (localStorage.getItem("username") || "Guest") : "Guest";
-   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
    if (isLoggedIn) {
   // do something when user is logged in
@@ -57,7 +62,7 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-3">
-            <button
+<button
               onClick={() => navigate("/posts")}
               className={`px-3 py-2 text-3xl font-medium ${isActive(
                 "/posts"
@@ -65,6 +70,36 @@ const Navbar = () => {
             >
               All Post
             </button>
+            {/* Desktop Categories Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                className="px-3 py-2 text-3xl font-medium text-white hover:text-yellow-400 transition flex items-center gap-1"
+              >
+                Categories
+                <svg className={`w-4 h-4 transition-transform ${isCategoryOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {isCategoryOpen && (
+                <div className="absolute top-full left-0 mt-1 w-64 bg-black/95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl z-50 py-2">
+
+{CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        navigate(`/category/${encodeURIComponent(cat)}`);
+                        setIsCategoryOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-3 text-xl hover:bg-gray-800 hover:text-yellow-400 transition text-white first:rounded-t-lg last:rounded-b-lg"
+                    >
+                      {cat}
+                    </button>
+                  ))}
+
+                </div>
+              )}
+            </div>
             <button
               onClick={() => navigate("/create")}
               className={`px-3 py-2 text-3xl font-medium ${isActive(
@@ -153,6 +188,36 @@ const Navbar = () => {
                 Saved
               </button>
             )}
+            {/* Mobile Categories Dropdown */}
+            <div className="space-y-1">
+              <button
+                onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                className="px-3 py-2 text-xl font-medium text-left text-white hover:text-yellow-400 transition flex items-center justify-between w-full"
+              >
+                Categories
+                <svg className={`w-4 h-4 transition-transform ${isCategoryOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {isCategoryOpen && (
+                <div className="pl-6 space-y-1 border-l border-gray-700">
+{CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        navigate(`/category/${encodeURIComponent(cat)}`);
+                        setIsMenuOpen(false);
+                        setIsCategoryOpen(false);
+                      }}
+                      className="block w-full text-left py-2 text-lg hover:text-yellow-400 transition text-white"
+                    >
+                      {cat}
+                    </button>
+                  ))}
+
+                </div>
+              )}
+            </div>
             <button
               onClick={() => { navigate("/register"); setIsMenuOpen(false); }}
               className={`px-3 py-2 text-xl font-medium text-left ${isActive("/register")} hover:text-yellow-400 transition`}

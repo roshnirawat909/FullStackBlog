@@ -13,7 +13,11 @@ import UserPosts from "../components/UserPosts";
 import EditPost from "../pages/EditPost";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
+
 import SavedPosts from "../pages/SavedPosts";
+import Categories from "../pages/Categories";
+import CategoryPage from "../pages/CategoryPage";
+
 
 const AppRoutes = () => {
   return (
@@ -30,7 +34,11 @@ const AppRoutes = () => {
       <Route path="/create" element={<CreatePost />} />
       <Route path="/my-posts/:author" element={<UserPosts />} />
       <Route path="/posts/:id/edit" element={<EditPost />} />
+
       <Route path="/saved-posts" element={<SavedPosts />} />
+      <Route path="/categories" element={<Categories />} />
+      <Route path="/category/:category" element={<CategoryPage />} />
+
     </Routes>
   );
 };

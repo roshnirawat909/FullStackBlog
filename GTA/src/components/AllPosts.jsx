@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import PostCard from './PostCard';
 import Button from './Button';
 
+
 const AllPosts = () => {
-    const navigate = useNavigate();
-    const [posts, setPosts] = useState([]);
+
+
+
+    const [posts, setPosts] = useState([]); 
     const [allPosts, setAllPosts] = useState([]); // Store all posts for filtering
     const [showModal, setShowModal] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
@@ -16,19 +19,8 @@ const AllPosts = () => {
     const isLoggedIn = !!localStorage.getItem("token");
     const loggedInUser = isLoggedIn ? localStorage.getItem("username") : null;
 
-    const categories = [
-        "Technology",
-        "Education & Career",
-        "Health & Fitness",
-        "Lifestyle",
-        "Relationships",
-        "Science",
-        "Finance",
-        "Web Development",
-        "AI",
-        "Programming",
-        "Career Tips"
-    ];
+
+
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -57,26 +49,14 @@ const AllPosts = () => {
         fetchPosts();
     }, []);
 
-    // Filter posts when category or tags change
-    useEffect(() => {
-        let filtered = [...allPosts];
-        
-        if (selectedCategory) {
-            filtered = filtered.filter(post => post.category === selectedCategory);
-        }
-        
-        if (selectedTags.length > 0) {
-            filtered = filtered.filter(post => 
-                post.tags && post.tags.some(tag => selectedTags.includes(tag))
-            );
-        }
-        
-        setPosts(filtered);
-    }, [selectedCategory, selectedTags, allPosts]);
 
-    const handleCategoryChange = (category) => {
-        setSelectedCategory(category === selectedCategory ? '' : category);
-    };
+    useEffect(() => {
+        setPosts(allPosts);
+    }, [allPosts]);
+
+
+
+
 
     const handleTagClick = (tag) => {
         setSelectedTags(prev => 
