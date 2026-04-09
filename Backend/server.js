@@ -422,6 +422,9 @@ mongoose
 app.use("/auth", authRoutes); // for login/register
 app.use("/posts", postRoutes); // for posts API
 
+// Serve static uploads
+app.use('/uploads', express.static('public/uploads'));
+
 // --- Comment Routes ---
 
 // Add a comment

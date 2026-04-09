@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import PostCard from '../components/PostCard';
 import { CATEGORIES } from '../constants/categories';
-
+import AISummaryPreview from '../components/AISummaryPreview';
 
 const CategoryPage = () => {
   const { category } = useParams();
@@ -49,8 +49,8 @@ const CategoryPage = () => {
   if (loading) return (
     <>
       <Navbar />
-      <div className="pt-24 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center">
-        <div className="text-xl">Loading {decodedCategory} posts...</div>
+      <div className="pt-24 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center bg-black">
+        <div className="text-xl text-white">Loading {decodedCategory} posts...</div>
       </div>
     </>
   );
@@ -58,7 +58,7 @@ const CategoryPage = () => {
   if (error) return (
     <>
       <Navbar />
-      <div className="pt-24 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center text-red-500">
+      <div className="pt-24 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center bg-black text-red-500">
         Error: {error}
       </div>
     </>
@@ -67,22 +67,30 @@ const CategoryPage = () => {
   return (
     <>
       <Navbar />
-      <div className="pt-24 px-4 sm:px-6 lg:px-8">
+      <div className="pt-24 px-4 sm:px-6 lg:px-8 bg-black min-h-screen">
         <div className="mb-12">
           <button
             onClick={() => navigate('/categories')}
-            className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 font-medium mb-4"
+className="inline-flex items-center gap-2 mb-4 text-yellow-400 hover:text-yellow-300 font-bold text-lg transition-colors"
           >
             ← Back to Categories
           </button>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+          <h1 className="text-3xl md:text-4xl font-bold text-white">
             {decodedCategory} 
-            <span className="text-2xl md:text-3xl block text-gray-600 mt-2">
+            <span className="text-2xl md:text-3xl block text-gray-400 mt-2">
               ({posts.length} posts)
             </span>
           </h1>
         </div>
-        
+
+        {/* AI Summary Previews */}
+        {!loading && posts.length > 0 && (
+          <AISummaryPreview 
+            posts={posts}
+            onSummaryGenerated={() => {}}
+          />
+        )}
+
         {posts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post) => (
@@ -97,11 +105,11 @@ const CategoryPage = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <div className="text-6xl mb-4">📭</div>
-            <h2 className="text-2xl font-bold text-gray-600 mb-4">No posts yet</h2>
-            <p className="text-gray-500 mb-8">Be the first to write about {decodedCategory}</p>
-            <a href="/create" className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-indigo-700 transition">
+          <div className="text-center py-20 bg-white rounded-lg shadow-md mx-auto max-w-md p-8">
+            <div className="text-6xl mb-4 text-gray-400">📭</div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">No posts yet</h2>
+            <p className="text-gray-600 mb-8">Be the first to write about {decodedCategory}</p>
+            <a href="/create" className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-indigo-700 transition inline-block">
               Create First {decodedCategory} Post
             </a>
           </div>

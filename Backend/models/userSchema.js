@@ -42,7 +42,11 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-  savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }]
+  savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+  profilePicture: {
+    type: String,
+    default: null
+  }
 });
 
 const User = mongoose.model("User", userSchema);

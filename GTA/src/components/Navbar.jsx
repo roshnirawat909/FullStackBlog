@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 
@@ -16,16 +16,37 @@ const Navbar = () => {
    const username = isLoggedIn ? (localStorage.getItem("username") || "Guest") : "Guest";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
-   if (isLoggedIn) {
-  // do something when user is logged in
-  console.log("User is logged in");
-}
+  useEffect(() => {
+    if (isLoggedIn) {
+      const fetchUser = async () => {
+        try {
+          const res = await fetch('http://localhost:8080/auth/me', {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            setUser(data);
+            localStorage.setItem('avatar', data.profilePicture || '');
+          }
+        } catch (err) {
+          console.error('User fetch error:', err);
+        }
+      };
+      fetchUser();
+    }
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     navigate("/logout");
+  };
+
+  const handleProfile = () => {
+    navigate('/profile');
   };
 
   const isActive = (path) => {
@@ -117,45 +138,73 @@ const Navbar = () => {
               My Posts
             </button>
             {isLoggedIn && (
-              <button
-                onClick={() => navigate("/saved-posts")}
-                className={`px-3 py-2 text-3xl font-medium ${isActive(
-                  "/saved-posts"
-                )} hover:text-yellow-400 transition`}
-              >
-                Saved
-              </button>
+              <>
+                <button
+                  onClick={() => navigate("/saved-posts")}
+                  className={`px-3 py-2 text-3xl font-medium ${isActive("/saved-posts")} hover:text-yellow-400 transition`}
+                >
+                  Saved
+                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                    className="flex items-center gap-2 px-3 py-2 text-xl font-medium text-white hover:text-yellow-400 transition rounded-md"
+                    title="Profile"
+                  >
+{user?.profilePicture ? (
+                    <img src={`http://localhost:8080${user.profilePicture}`} alt="Profile" className="w-8 h-8 object-cover rounded-full ring-1 ring-white/20" />
+                  ) : (
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  )}
+                    <span>{username}</span>
+                    <svg className={`w-4 h-4 ml-1 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {isProfileOpen && (
+                    <div className="absolute top-full right-0 mt-1 w-48 bg-black/95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl z-50 py-2">
+                      <button
+                        onClick={handleProfile}
+                        className="block w-full text-left px-4 py-3 text-white hover:bg-gray-800 hover:text-yellow-400 transition first:rounded-t-lg"
+                      >
+                        View Profile
+                      </button>
+                      <button
+                        onClick={() => { navigate("/saved-posts"); setIsProfileOpen(false); }}
+                        className="block w-full text-left px-4 py-3 text-white hover:bg-gray-800 hover:text-yellow-400 transition"
+                      >
+                        Saved Posts
+                      </button>
+                      <button
+                        onClick={() => { handleLogout(); setIsProfileOpen(false); }}
+                        className="block w-full text-left px-4 py-3 text-white hover:bg-gray-800 hover:text-yellow-400 transition rounded-b-lg"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
             )}
-            <button
-              onClick={() => navigate("/register")}
-              className={`px-3 py-2 text-3xl font-medium ${isActive(
-                "/register"
-              )} hover:text-yellow-400 transition`}
-            >
-              Register
-            </button>
-             <button
-              onClick={() => navigate("/login")}
-              className={`px-3 py-2 text-3xl font-medium ${isActive(
-                "/login"
-              )} hover:text-yellow-400 transition`}
-            >
-              Login
-            </button>
-            <button
-              onClick={() => navigate("/signin")}
-              className={`px-3 py-2 text-3xl font-medium ${isActive(
-                "/signin"
-              )} hover:text-yellow-400 transition`}
-            >
-              Sign in
-            </button>
-            <button
-              onClick={handleLogout}
-              className="px-3 py-2 text-3xl font-semibold rounded-md bg-yellow-500 text-center text-black hover:bg-yellow-600 transition"
-            >
-              Logout
-            </button>
+            {!isLoggedIn && (
+              <>
+                <button
+                  onClick={() => navigate("/register")}
+                  className={`px-3 py-2 text-3xl font-medium ${isActive("/register")} hover:text-yellow-400 transition`}
+                >
+                  Register
+                </button>
+                <button
+                  onClick={() => navigate("/login")}
+                  className={`px-3 py-2 text-3xl font-medium ${isActive("/login")} hover:text-yellow-400 transition`}
+                >
+                  Login
+                </button>
+
+              </>
+            )}
           </div>
         </div>
 
@@ -218,30 +267,48 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-            <button
-              onClick={() => { navigate("/register"); setIsMenuOpen(false); }}
-              className={`px-3 py-2 text-xl font-medium text-left ${isActive("/register")} hover:text-yellow-400 transition`}
-            >
-              Register
-            </button>
-             <button
-              onClick={() => { navigate("/login"); setIsMenuOpen(false); }}
-              className={`px-3 py-2 text-xl font-medium text-left ${isActive("/login")} hover:text-yellow-400 transition`}
-            >
-              Login
-            </button>
-            <button
-              onClick={() => { navigate("/signin"); setIsMenuOpen(false); }}
-              className={`px-3 py-2 text-xl font-medium text-left ${isActive("/signin")} hover:text-yellow-400 transition`}
-            >
-              Sign in
-            </button>
-            <button
-              onClick={() => { handleLogout(); setIsMenuOpen(false); }}
-              className="px-3 py-2 text-xl font-semibold rounded-md bg-yellow-500 text-center text-black hover:bg-yellow-600 transition"
-            >
-              Logout
-            </button>
+            {!isLoggedIn && (
+              <>
+                <button
+                  onClick={() => { navigate("/register"); setIsMenuOpen(false); }}
+                  className={`px-3 py-2 text-xl font-medium text-left ${isActive("/register")} hover:text-yellow-400 transition`}
+                >
+                  Register
+                </button>
+                <button
+                  onClick={() => { navigate("/login"); setIsMenuOpen(false); }}
+                  className={`px-3 py-2 text-xl font-medium text-left ${isActive("/login")} hover:text-yellow-400 transition`}
+                >
+                  Login
+                </button>
+
+              </>
+            )}
+            {isLoggedIn && (
+              <div className="space-y-1 pt-2 border-t border-gray-700">
+                <div className="flex items-center gap-3 p-3 hover:bg-gray-800 hover:text-yellow-400 transition rounded cursor-pointer" onClick={() => { handleProfile(); setIsMenuOpen(false); }}>
+                  <svg className="w-8 h-8 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <div>
+                    <p className="font-medium text-white">{username}</p>
+                    <p className="text-sm opacity-75">View Profile</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => { navigate("/saved-posts"); setIsMenuOpen(false); }}
+                  className="block w-full text-left px-3 py-2 text-white hover:bg-gray-800 hover:text-yellow-400 transition rounded"
+                >
+                  Saved Posts
+                </button>
+                <button
+                  onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                  className="block w-full text-left px-3 py-2 text-white hover:bg-gray-800 hover:text-yellow-400 transition rounded font-semibold "
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         )}
       </nav>

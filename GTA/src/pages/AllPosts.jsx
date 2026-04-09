@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import AISummaryPreview from "../components/AISummaryPreview";
 
 export default function AllPosts() {
   const [posts, setPosts] = useState([]);
@@ -75,10 +76,8 @@ export default function AllPosts() {
   return (
     <>
       <Navbar />
-      {/** bg-gray-100 */}
       <div className="min-h-screen bg-black pt-20 px-4">
         <div className="max-w-7xl mx-auto">
-          {/**text-gray-900*/}
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-8">All Posts</h1>
 
           {/* Search Bar */}
@@ -113,6 +112,14 @@ export default function AllPosts() {
               </p>
             )}
           </div>
+
+          {/* AI Summary Previews */}
+          {!loading && posts.length > 0 && (
+            <AISummaryPreview 
+              posts={posts} 
+onSummaryGenerated={() => {}}
+            />
+          )}
 
           {loading ? (
             <div className="text-center">
@@ -178,3 +185,4 @@ export default function AllPosts() {
     </>
   );
 }
+
