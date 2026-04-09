@@ -1,10 +1,8 @@
-# Category Routing Complete ✅
+# Profile Icon in Navbar Task
 
-**New Flow:**
-1. Navbar → Categories dropdown → /categories
-2. /categories → grid buttons → /category/technology
-3. /category/technology → dedicated page with only tech posts (no filters)
+## Steps:
+- [x] 1. Edit GTA/src/components/Navbar.jsx to add conditional auth rendering and profile dropdown icon (user SVG, username, links to profile/saved/logout).
+- [x] 2. Update this TODO.md after edits.
+- [ ] 3. Test login state changes and navigation.
 
-**Updated:**
-- Navbar: dropdown → /categories
-- New: Categories.jsx (grid), Category
+Current step: 3

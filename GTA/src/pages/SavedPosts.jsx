@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import PostCard from '../components/PostCard';
+import AISummaryPreview from '../components/AISummaryPreview';
 
 const SavedPosts = () => {
     const navigate = useNavigate();
@@ -116,7 +117,15 @@ const SavedPosts = () => {
             <Navbar />
             <div className="all-posts-container pt-24 px-4 sm:px-6 lg:px-8 min-h-screen bg-black">
                 <h1 className="text-2xl md:text-3xl font-bold mb-6 text-white">Saved Posts</h1>
-                
+
+                {/* AI Summary Previews */}
+                {posts.length > 0 && (
+                  <AISummaryPreview 
+                    posts={posts}
+                    onSummaryGenerated={() => {}}
+                  />
+                )}
+
                 {posts.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {posts.map((post) => (
