@@ -392,6 +392,8 @@ import authRoutes from "./routes/auth.js";
 import postRoutes from "./routes/posts.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Post from "./models/postSchema.js";
+import path from "path";
+
 
 // Load env variables
 dotenv.config();
@@ -417,6 +419,21 @@ mongoose
   .connect(MONGO_URL)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
+
+
+//  Serve React frontend from the build folder
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+// API routes
+app.get("/api/hello", (req, res) => {
+  res.json({ message: "Hello from backend!" });
+});
+
 
 // Mount routes
 app.use("/auth", authRoutes); // for login/register
@@ -551,3 +568,5 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });
+
+module.exports = app; 
