@@ -10,7 +10,7 @@ export default function Register() {
     password: "",
   });
   const navigate = useNavigate();
-  const clientId = "YOUR_GOOGLE_CLIENT_ID";
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
