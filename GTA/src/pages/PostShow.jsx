@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import AIAssistant from "../components/AIAssistant";
 
 export default function PostShow() {
   const { id } = useParams();
@@ -8,6 +9,8 @@ export default function PostShow() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAISummary, setShowAISummary] = useState(false);
+  const [generatedSummary, setGeneratedSummary] = useState('');
   
   // Get user info
   const userId = localStorage.getItem("userId");
@@ -74,6 +77,11 @@ export default function PostShow() {
     }
   };
 
+  const handleSummaryGenerated = (summary) => {
+    setGeneratedSummary(summary);
+    setShowAISummary(false); // Hide assistant after generation
+  };
+
   if (loading) return (
     <>
       <Navbar />
@@ -105,6 +113,41 @@ export default function PostShow() {
           )}
           <p className="text-gray-800 mb-4">{post.body}</p>
           <p className="text-sm text-gray-600 mb-4">By {post.author}{post.createdAt ? ` on ${new Date(post.createdAt).toLocaleDateString()}` : ""}</p>
+          
+          {/* AI Summary Section */}
+          <div className="mb-6 pb-4 border-b">
+            <button 
+              onClick={() => setShowAISummary(!showAISummary)}
+              className="bg-linear-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold py-2 px-6 rounded-full transition-all duration-300 flex items-center gap-2 mx-auto mb-4"
+            >
+              ✨ {showAISummary ? 'Hide' : 'Get AI Summary'}
+            </button>
+            
+            {showAISummary && post.body && (
+              <AIAssistant 
+                initialContent={post.body} 
+                initialType="summary"
+                onContentGenerated={handleSummaryGenerated}
+              />
+            )}
+          </div>
+
+          {generatedSummary && (
+            <div className="bg-linear-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
+              <h3 className="text-xl font-bold text-blue-900 mb-3 flex items-center gap-2">
+                📝 AI Generated Summary
+              </h3>
+              <div className="text-gray-800 prose max-w-none mb-4 whitespace-pre-wrap">
+                {generatedSummary}
+              </div>
+              <button 
+                onClick={() => setGeneratedSummary('')}
+nd                className="text-sm text-blue-600 hover:text-blue-800 underline"
+              >
+                Clear Summary
+              </button>
+            </div>
+          )}
           
           {/* Like and Save Buttons */}
           {isLoggedIn && (
@@ -142,3 +185,4 @@ export default function PostShow() {
     </>
   );
 }
+

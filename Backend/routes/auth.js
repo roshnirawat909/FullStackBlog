@@ -202,6 +202,52 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
+// GET CURRENT USER PROFILE (authenticated)
+router.get("/me", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({
+      id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePicture: user.profilePicture,
+      likedPosts: user.likedPosts.length,
+      savedPosts: user.savedPosts.length,
+      createdAt: user.createdAt
+    });
+  } catch (err) {
+    console.error("Profile fetch error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// UPLOAD PROFILE PICTURE
+import upload from '../middleware/upload.js';
+router.post('/upload-profile-pic', authMiddleware, upload.single('profilePicture'), async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (req.file) {
+      user.profilePicture = `/uploads/avatars/${req.file.filename}`;
+      await user.save();
+      res.json({ message: "Profile picture updated", profilePicture: user.profilePicture });
+    } else {
+      res.status(400).json({ message: "No file uploaded" });
+    }
+  } catch (err) {
+    console.error("Upload error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // CHANGE PASSWORD (authenticated user)
 router.post("/change-password", authMiddleware, async (req, res) => {
   try {

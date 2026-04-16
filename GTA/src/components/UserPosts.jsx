@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Button from './Button';
 import Navbar from './Navbar';
 import PostCard from './PostCard';
+import AISummaryPreview from './AISummaryPreview';
 
 const UserPosts = () => {
   const { author } = useParams();
@@ -71,8 +72,19 @@ const UserPosts = () => {
     return (
         <>
         <Navbar />
-        <div className="user-posts-container pt-24 px-4 sm:px-6 lg:px-8 ">
-            <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">{loggedInUser === author ? "My Posts" : `Posts by ${author}`}</h1>
+        <div className="user-posts-container pt-24 px-4 sm:px-6 lg:px-8 bg-black min-h-screen">
+            <h1 className="text-2xl md:text-3xl font-bold mb-6 text-white">{loggedInUser === author ? "My Posts" : `Posts by ${author}`}</h1>
+            
+            {/* AI Summary Previews */}
+            {posts.length > 0 && (
+              <div className="mb-8">
+                <AISummaryPreview 
+                  posts={posts}
+                  onSummaryGenerated={() => {}}
+                />
+              </div>
+            )}
+
             {posts.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {posts.map((post) => (
@@ -87,7 +99,9 @@ const UserPosts = () => {
                     ))}
                 </div>
             ) : (
-                <div className="text-center text-gray-500 py-10">No posts found.</div>
+                <div className="text-center text-gray-400 py-10 bg-white rounded-lg shadow-md max-w-md mx-auto p-8">
+                  No posts found.
+                </div>
             )}
             
             {/* Confirmation Modal */}
@@ -114,3 +128,4 @@ const UserPosts = () => {
 };
 
 export default UserPosts;
+
