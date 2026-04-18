@@ -218,13 +218,13 @@ dotenv.config();
 // Create app
 const app = express();
 
-// ✅ CORS (add your deployed frontend URL)
+// ✅ CORS (IMPORTANT: replace with your frontend URL after deploy)
 app.use(
   cors({
     origin: [
       "http://localhost:3000",
       "http://localhost:5173",
-      "https://your-frontend.vercel.app"
+      "https://your-frontend.onrender.com" // 🔥 change later
     ],
     credentials: true,
   })
@@ -239,8 +239,8 @@ mongoose
   .connect(process.env.MONGOATLAS_URL, {
     dbName: "BloggifyHub",
   })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("MongoDB Error:", err));
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.error("❌ MongoDB Error:", err));
 
 // ✅ Test Route
 app.get("/", (req, res) => {
@@ -366,11 +366,9 @@ app.post("/ai/generate", async (req, res) => {
     let systemInstruction = "";
 
     if (type === "title") {
-      systemInstruction =
-        "Generate a catchy SEO-friendly blog title: ";
+      systemInstruction = "Generate a catchy SEO-friendly blog title: ";
     } else if (type === "body") {
-      systemInstruction =
-        "Write a detailed blog post with markdown: ";
+      systemInstruction = "Write a detailed blog post with markdown: ";
     } else if (type === "category") {
       const categories = [
         "Technology",
@@ -379,9 +377,7 @@ app.post("/ai/generate", async (req, res) => {
         "Lifestyle",
         "Finance",
       ];
-      systemInstruction = `Pick best category from: ${categories.join(
-        ", "
-      )}. Topic: `;
+      systemInstruction = `Pick best category from: ${categories.join(", ")}. Topic: `;
     } else {
       systemInstruction = "Assist: ";
     }
@@ -400,6 +396,10 @@ app.post("/ai/generate", async (req, res) => {
 });
 
 
+// ================= START SERVER =================
 
+const PORT = process.env.PORT || 8080;
 
-export default app;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
