@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== "production") {
   dotenv.config({ path: join(__dirname, "../.env") });
 }
 
-const MONGO_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/BloggifyHub";
+const MONGO_URL = process.env.MONGOATLAS_URL;
 
 // Connect to DB
 async function main() {
@@ -25,7 +25,7 @@ async function main() {
 // Seed function
 const initDB = async () => {
   try {
-    await Post.deleteMany({});
+    // await Post.deleteMany({}); // Commented to avoid clearing existing data
     const res = await Post.insertMany(data);
     console.log(`Data initialized! Inserted ${res.length} posts.`);
     
