@@ -18,10 +18,10 @@ const ProfilePage = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await fetch('http://localhost:8080/auth/me', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         });
         if (res.ok) {
@@ -64,10 +64,10 @@ const ProfilePage = () => {
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
               <div className="shrink-0">
                 {user.profilePicture ? (
-                  <img 
-                    src={`http://localhost:8080${user.profilePicture}`} 
-                    alt="Profile" 
-                    className="w-24 h-24 object-cover rounded-full ring-4 ring-white/20" 
+                  <img
+                    src={`${import.meta.env.VITE_API_URL}${user.profilePicture}`}
+                    alt="Profile"
+                    className="w-24 h-24 object-cover rounded-full ring-4 ring-white/20"
                   />
                 ) : (
                   <div className="w-24 h-24 bg-linear-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-2xl font-bold text-black uppercase">
@@ -91,19 +91,19 @@ const ProfilePage = () => {
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
               <h2 className="text-2xl font-bold text-white mb-4">Account Actions</h2>
               <div className="space-y-3">
-                <button 
+                <button
                   onClick={() => navigate('/saved-posts')}
                   className="w-full bg-linear-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-black font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
                   Saved Posts
                 </button>
-                <button 
+                <button
                   onClick={() => navigate('/create')}
                   className="w-full bg-linear-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
                   Create Post
                 </button>
-                <button 
+                <button
                   onClick={() => navigate('/edit-profile-pic')}
                   className="w-full bg-linear-to-r from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >

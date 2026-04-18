@@ -87,13 +87,17 @@ const EditProfilePic = () => {
           <h1 className="text-3xl font-bold text-white mb-8 text-center bg-linear-to-r from-white to-gray-300 bg-clip-text ">
             Edit Profile Picture
           </h1>
-          
+
           <div className="text-center mb-8">
             <div className="w-32 h-32 mx-auto mb-4 rounded-full border-4 border-white/20 overflow-hidden flex items-center justify-center bg-linear-to-r from-gray-700 to-gray-600 text-4xl font-bold text-white">
               {preview ? (
                 <img src={preview} alt="Preview" className="w-full h-full object-cover rounded-full" />
               ) : currentPic ? (
-                <img src={`http://localhost:8080${currentPic}`} alt="Current" className="w-full h-full object-cover rounded-full" />
+                <img
+                  src={`${import.meta.env.VITE_API_URL}${currentPic}`}
+                  alt="Current"
+                  className="w-full h-full object-cover rounded-full"
+                />
               ) : (
                 '👤'
               )}

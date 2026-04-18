@@ -83,10 +83,10 @@ const CreatePost = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/posts', {
-                method: 'POST',
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(newPost),
             });
@@ -106,7 +106,7 @@ const CreatePost = () => {
             <Navbar />
             <div className="pt-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold mb-6 text-gray-800">Create a New Post</h1>
-                
+
                 <AIAssistant onContentGenerated={handleContentGenerated} />
 
                 <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-md">
