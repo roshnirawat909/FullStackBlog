@@ -91,33 +91,53 @@ const MainContent = () => {
           />
 
 
-          {/*  <img
+          {/* <img
             // The -bottom-[150%] CSS sets the initial off-screen position
             className="absolute character -bottom-[150%] left-1/2 -translate-x-1/2 h-150 rotate-[-20deg]"
-        
-         src="./girlbg.png"
+            src="./girlbg.png"
             alt="Girl character"
-          />
-          */}
+          /> */}
 
-
-
-        <img
+          {/*  <img
             // The -bottom-[150%] CSS sets the initial off-screen position
             className="absolute character -bottom-[150%] left-1/2 -translate-x-1/2 h-150 rotate-[-20deg]"
         
          src="./Girl.jpg"
             alt=" new Girl character"
           />
+          */}
 
+         <img
+  className="
+    absolute
+    left-1/2
+    -translate-x-1/2
 
+    bottom-[-8%]
+    sm:bottom-[-10%]
+    md:bottom-[-12%]
+    lg:bottom-[-15%]
+
+    w-[55vw]
+    sm:w-[45vw]
+    md:w-[36vw]
+    lg:w-[30vw]
+    xl:w-[24vw]
+
+    max-w-[350px]
+    min-w-[150px]
+
+    h-auto
+    object-contain
+  "
+  src="./Girl.png"
+  alt="new Girl character"
+/>
 
         </div>
 
-
-
         {/* Bottom Bar/Call to Action */}
-        <div className="btmbar text-white absolute bottom-0 left-0 w-full py-16 px-10 bg-gradient-to-t from-black to-transparent">
+        <div className="btmbar text-white absolute bottom-0 left-0 w-full py-16 px-10 bg-linear-to-t from-black to-transparent">
           <button
             onClick={() => navigate("/create")}
             className="block mx-auto py-4 px-2 border rounded-md text-center text-2xl hover:bg-yellow-500 hover:text-black transition"
@@ -126,36 +146,9 @@ const MainContent = () => {
           </button>
         </div>
       </div>
-
-      {/* Main Content / Info Section */}
-      <div className="w-full h-screen flex items-center justify-center bg-black">
-        <div className="cntnr flex flex-col md:flex-row text-white w-full h-[80%] px-4">
-          <div className="limg relative w-full md:w-1/2 h-1/2 md:h-full">
-            <img
-              className="absolute scale-[0.6] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain max-h-full"
-              src="./img.png"
-              alt="Descriptive image"
-            />
-          </div>
-          <div className="rg w-full md:w-1/2 flex flex-col justify-center">
-            <h1 className="text-4xl md:text-6xl lg:text-8xl mt-3">Still Running,</h1>
-            <h1 className="text-4xl md:text-6xl lg:text-8xl mt-3">Not Hunting</h1>
-            <p className="mt-8 text-xl font-[Helvetica_Now_Display]">
-              With a smile that radiates pure, infectious joy, the young woman in the picture presents an image of vibrant confidence.
-            </p>
-            <p className="mt-3 text-xl font-[Helvetica_Now_Display]">
-              Her expression is the centerpiece of her portrait, a genuine and unguarded moment of happiness that lights up her features.
-            </p>
-            <p className="mt-3 mb-6 text-xl font-[Helvetica_Now_Display]">
-              She leans into the frame with an easy-going energy, her bright eyes crinkling at the corners, suggesting a personality that is both warm and spirited.
-            </p>
-            <button className="bg-yellow-500 px-8 py-6 text-black mb-3 text-4xl">
-              Download Now
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
+
+
   );
 };
 

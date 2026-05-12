@@ -1,0 +1,147 @@
+export const demoPosts = [
+  {
+    title: "Latest Trends in Technology 2026",
+    body: "Technology is evolving rapidly with AI, blockchain, and cloud computing leading the way.",
+    category: "Technology",
+    tags: ["tech", "innovation"],
+    author: "prachee",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+    likes: 12,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "How to Build a Strong Career in IT",
+    body: "Focus on skills, projects, and networking to grow your career.",
+    category: "Education & Career",
+    tags: ["career", "education"],
+    author: "gamini",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+    likes: 8,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Daily Fitness Routine for Beginners",
+    body: "Start with walking, stretching, and basic workouts.",
+    category: "Health & Fitness",
+    tags: ["fitness", "health"],
+    author: "sahil",
+    image: "https://images.unsplash.com/photo-1554284126-aa88f22d8b74",
+    likes: 15,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Simple Lifestyle Changes for Happiness",
+    body: "Small habits like gratitude and mindfulness can improve life.",
+    category: "Lifestyle",
+    tags: ["lifestyle"],
+    author: "rakesh",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    likes: 10,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Building Strong Relationships",
+    body: "Trust and communication are key to strong relationships.",
+    category: "Relationships",
+    tags: ["love", "trust"],
+    author: "ritik",
+    image: "https://images.unsplash.com/photo-1511988617509-a57c8a288659",
+    likes: 9,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Amazing Facts About Science",
+    body: "Science explains everything from atoms to galaxies.",
+    category: "Science",
+    tags: ["science"],
+    author: "arvind",
+    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d",
+    likes: 14,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Smart Ways to Save Money",
+    body: "Track expenses and invest wisely for financial stability.",
+    category: "Finance",
+    tags: ["money", "finance"],
+    author: "pankaj",
+    image: "https://images.unsplash.com/photo-1565514020179-026b92b84bb6",
+    likes: 11,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Getting Started with Web Development",
+    body: "Learn HTML, CSS, and JavaScript to build websites.",
+    category: "Web Development",
+    tags: ["html", "css", "javascript"],
+    author: "ragini",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+    likes: 20,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Artificial Intelligence Explained",
+    body: "AI helps machines learn and make decisions.",
+    category: "AI",
+    tags: ["ai", "machinelearning"],
+    author: "prachee",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+    likes: 25,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Best Programming Languages to Learn",
+    body: "JavaScript, Python, and Java are top languages.",
+    category: "Programming",
+    tags: ["coding"],
+    author: "sahil",
+    image: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f",
+    likes: 18,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "Career Tips for Fresh Graduates",
+    body: "Build projects and improve communication skills.",
+    category: "Career Tips",
+    tags: ["career"],
+    author: "gamini",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978",
+    likes: 13,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  },
+  {
+    title: "A Short Poem on Life",
+    body: "Life is a journey,\nDream and fly high.",
+    category: "Poetry",
+    tags: ["poetry"],
+    author: "ragini",
+    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+    likes: 22,
+    likedBy: [],
+    savedBy: [],
+    comments: []
+  }
+];
+

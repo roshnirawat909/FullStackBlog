@@ -252,6 +252,25 @@ app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from backend!" });
 });
 
+// ✅ Categories Route - returns categories from demo data
+app.get("/categories", (req, res) => {
+  const categories = [
+    "Technology",
+    "Education & Career", 
+    "Health & Fitness",
+    "Lifestyle",
+    "Relationships",
+    "Science",
+    "Finance",
+    "Web Development",
+    "AI",
+    "Programming",
+    "Career Tips",
+    "Poetry"
+  ];
+  res.json(categories);
+});
+
 // ✅ Routes
 app.use("/auth", authRoutes);
 app.use("/posts", postRoutes);

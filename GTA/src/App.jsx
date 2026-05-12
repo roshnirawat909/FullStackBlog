@@ -214,9 +214,6 @@ function App() {
                   bright eyes crinkling at the corners, suggesting a personality that is both warm and spirited.
 
                 </p>
-                <button className="bg-yellow-500 px-8 py-6 text-black mb-3 text-4xl">
-                  Download Now
-                </button>
               </div>
             </div>
           </div>
